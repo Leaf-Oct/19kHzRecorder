@@ -56,7 +56,7 @@ def preprocessing(wav_path):
 
 
 
-def audio_to_picture2(wav_path, name):
+def audio_to_picture2(wav_path, name, tag):
     # --------------
     # import matplotlib
     import matplotlib.pyplot as plt
@@ -85,8 +85,6 @@ def audio_to_picture2(wav_path, name):
     img = skimage.img_as_ubyte(img)
     img = np.asarray(img)
     img = np.delete(img, -1, axis=2)
-    plt.savefig("/storage/emulated/0/Android/data/cn.leaf.record/files/"+str(name), dpi=96)
-    # 为每份文件存一个独一无二的
-    # plt.savefig(wav_path, dpi=96)
+    plt.savefig("/storage/emulated/0/AcouDigits/"+str(tag)+"/"+str(name), dpi=96)
     plt.clf()
     plt.close()

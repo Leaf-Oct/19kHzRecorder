@@ -23,6 +23,7 @@ public class AppContextUtil extends Application {
             Python py= Python.getInstance();
             PyObject test=py.getModule("main");
             test.callAttr("init");
+            test.close();
         }
 
     }

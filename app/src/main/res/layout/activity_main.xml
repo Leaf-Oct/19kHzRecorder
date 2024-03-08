@@ -44,11 +44,18 @@
 <!--        android:layout_height="wrap_content"-->
 <!--        android:text="Record (播放wav)"-->
 <!--        android:id="@+id/record_wav"/>-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tag"
+        android:hint="tag"
+        android:textAlignment="center"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/exit"
         android:text="exit"/>
+
     <ImageView
         android:layout_width="224dp"
         android:layout_height="224dp"

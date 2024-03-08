@@ -265,5 +265,5 @@ def init():
     cm.register_cmap('parula', parula_map)
     print("初始化完成")
 
-def pcm2img(pcm_file_path, pic_file_name):
-    function.audio_to_picture2(pcm_file_path, pic_file_name)
+def pcm2img(pcm_file_path, pic_file_name, tag):
+    function.audio_to_picture2(pcm_file_path, pic_file_name, tag)

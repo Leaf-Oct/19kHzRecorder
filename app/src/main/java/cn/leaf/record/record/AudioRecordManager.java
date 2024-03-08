@@ -37,7 +37,7 @@ public class AudioRecordManager {
     private File pcm_file, wav_file;
     private BufferedOutputStream file_output_stream;
 
-    public String file_name;
+    public String file_name, tag;
 
     //    开始录音
     public boolean startRecord(Context context) {
@@ -97,16 +97,47 @@ public class AudioRecordManager {
         }
     }
 
-    private void prepareSaveRecord(Context context) {
-        pcm_file=new File(AppContextUtil.getContext().getExternalFilesDir(null).getAbsolutePath()+File.separator+file_name+".pcm");
-        try {
-            if(pcm_file.exists()){
-                pcm_file.delete();
+//    private void prepareSaveRecord(Context context) {
+//        pcm_file=new File(AppContextUtil.getContext().getExternalFilesDir(null).getAbsolutePath()+File.separator+file_name+".pcm");
+//        try {
+//            if(pcm_file.exists()){
+//                pcm_file.delete();
+//            }
+//            file_output_stream=new BufferedOutputStream(new FileOutputStream(pcm_file));
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//    }
+
+//    For Android 10
+    private void prepareSaveRecord(Context context){
+        var root_dir=Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AcouDigits";
+        var root_file=new File(root_dir);
+        if(!root_file.exists()){
+            var result=root_file.mkdir();
+            Log.i("root_dir", Boolean.toString(result));
+        }
+        var des_dir=root_dir+File.separator+tag;
+        var des_dir_file=new File(des_dir);
+        if(!des_dir_file.exists()){
+            var result=des_dir_file.mkdir();
+            Log.i("des_dir", Boolean.toString(result));
+        }
+        pcm_file=new File(des_dir_file, file_name+".pcm");
+        if(!pcm_file.exists()){
+            try {
+                var result=pcm_file.createNewFile();
+                Log.i("pcmfile", Boolean.toString(result));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        }
+        try {
             file_output_stream=new BufferedOutputStream(new FileOutputStream(pcm_file));
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 

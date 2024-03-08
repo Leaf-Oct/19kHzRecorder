@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView pic;
     TextView number;
+    EditText tag_edit;
     short count=0;
     AudioRecordManager recorder=new AudioRecordManager();
     @Override
@@ -50,12 +53,19 @@ public class MainActivity extends AppCompatActivity {
         reset_button=findViewById(R.id.button_reset);
         number=findViewById(R.id.number);
         exit=findViewById(R.id.exit);
+        tag_edit=findViewById(R.id.tag);
         record.setOnClickListener(v->{
+            var tag=tag_edit.getText().toString();
+            if(tag.isEmpty()){
+                Toast.makeText(MainActivity.this, "需要有Tag", Toast.LENGTH_SHORT).show();
+                return;
+            }
             //AudioTrack能一直循环放音, 而不限于数组大小. 因此让其先开始放音后开始录音. 结束时先停止录音, 后停止放音
             var d = new Date();
             var date_format = new SimpleDateFormat("yyyy-MM-dd_hh:mm:ss");
             var file_name = date_format.format(d);
             recorder.file_name=file_name;
+            recorder.tag=tag;
             AudioTrackManager.startPlaying();
             recorder.startRecord(MainActivity.this);
             try {
@@ -68,11 +78,10 @@ public class MainActivity extends AppCompatActivity {
             count++;
             onNumberChange();
 
-
             Python py= Python.getInstance();
             PyObject test=py.getModule("main");
-            test.callAttr("pcm2img", "/storage/emulated/0/Android/data/cn.leaf.record/files/"+file_name+".pcm", file_name);
-            Bitmap bm= BitmapFactory.decodeFile("/storage/emulated/0/Android/data/cn.leaf.record/files/"+file_name+".png");
+            test.callAttr("pcm2img", "/storage/emulated/0/AcouDigits/"+tag+"/"+file_name+".pcm", file_name, tag);
+            Bitmap bm= BitmapFactory.decodeFile("/storage/emulated/0/AcouDigits/"+tag+"/"+file_name+".png");
             pic.setImageBitmap(bm);
         });
         instruction.setOnClickListener(v->{
