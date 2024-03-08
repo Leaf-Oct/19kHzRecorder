@@ -1,4 +1,4 @@
-# k19kHz Recording
+# 19kHz Recording
 
 供物联网实验室前辈们使用的高频声波采集软件。
 
